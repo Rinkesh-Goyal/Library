@@ -1,66 +1,37 @@
-const deleteContainer = document.querySelector('.delete-modal-container');
-const deleteAllButton = document.querySelector('#delete-all-btn');
-const modal = document.querySelector('.delete-modal-card');
-
-//Delete all boooks modal
-deleteAllButton.addEventListener('click', () => {
-    deleteContainer.style.display = 'block';
-})
-
-modal.addEventListener('click', (e) => {
-    if (e.target.classList.contains('close')) {
-        deleteContainer.style.display = 'none';
-    } else if (e.target.classList.contains('confirm-removal')) {
-        // empty the local storage
-       deleteContainer.style.display = 'none';
-      }
-})
-
-window.onclick = function(event) {
-   if (event.target == deleteContainer) {
-        deleteContainer.style.display = "none";
-   }
-}
-
-// Delete particular book modal
-const deleteBookButton = document.querySelector(".delete-button");
-
-deleteBookButton.addEventListener('click', () => {
-    deleteContainer.style.display = 'block';
-})
+import * as modal from './modal.js';
+import Book from './Book.js';
+import Validate from './Validate.js'
+import Storage from './Storage.js';
+import * as data from './Data.js';
+modal.modalView();
 
 
-//Show book info modal
-const viewBookButton = document.querySelector(".view-button");
-const infoModalContainer = document.querySelector('.info-modal-container');
-const infoModal = document.querySelector(".info-modal-card");
 
-viewBookButton.addEventListener('click', () => {
-    infoModalContainer.style.display = 'block';
-})
 
-infoModal.addEventListener('click', (e) => {
-    if (e.target.classList.contains('close')) {
-        infoModalContainer.style.display = 'none';
+//Add Book Form validation and adding book to local storage
+
+document.querySelector('.add-book').addEventListener('click',()=>{
+    
+    if(Validate()){
+        Storage.addBookToStorage(new Book(data.getBookData().title, 
+                                          data.getBookData().author, 
+                                          data.getBookData().pages, 
+                                          data.getBookData().genre, 
+                                          data.getBookData().status
+                                        )
+                                );
+        document.querySelector('.form-modal-container').style.display = "none";
     }
+    
 })
 
-//Add book modal
-const formModalContainer = document.querySelector('.form-modal-container');
-const formModal = document.querySelector('.form-modal');
-const addBookButton = document.querySelector('.new-book');
-
-addBookButton.addEventListener('click', () => {
-    formModalContainer.style.display = 'block';
+    document.querySelector('.clear').addEventListener('click',() => {
+    document.querySelector('#b-title').value='';
+    document.querySelector('#b-author').value='';
+    document.querySelector('#b-nbr_of_pages').value='';
+    document.querySelector('#b-genre').value='';
+    document.querySelector('#b-read_status').value=null;
 })
-
-formModal.addEventListener('click', (e) => {
-    if (e.target.classList.contains('close')) {
-        formModalContainer.style.display = 'none';
-    }
-})
-
-
 
 
 

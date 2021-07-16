@@ -319,8 +319,13 @@ header{
 }
 
 
-.form .err-msg{
+.form .title-err-msg,
+.form .author-err-msg,
+.form .status-err-msg,
+.form .pages-err-msg,
+.form .genre-err-msg{
     display: none;
+    /* display: flex; */
     color: red;
 }
 

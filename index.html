@@ -188,22 +188,22 @@
                 <div class="form">
                     <label for="b-title">Book title*
                         <br><input class="form-control" type="text" name="book-title" id="b-title" placeholder="Title"/>
-                        <br><small class="err-msg">* Book title is required</small>
+                        <br><small class="title-err-msg">* Book title is required</small>
                     </label><br>
                 
                     <label for="b-author">Book author*
                         <br><input class="form-control" type="text" name="book-author" id="b-author" placeholder="Author"/>
-                        <br><small class="err-msg">* Book author is required</small>
+                        <br><small class="author-err-msg">* Book author is required</small>
                     </label><br>
                     
                     <label for="b-nbr_of_pages">Number of pages*
                         <br><input class="form-control" type="number" name="pages-count" id="b-nbr_of_pages" placeholder="Number of pages" min="1"/>
-                        <br><small class="err-msg">* Book number of pages is required</small>
+                        <br><small class="pages-err-msg">* Book number of pages is required</small>
                     </label><br>
         
                     <label for="b-nbr_of_pages">Genre*
                         <br><input class="form-control" type="text" name="book-genre" id="b-genre" placeholder="Genre"/>
-                        <br><small class="err-msg">* Book genre is required</small>
+                        <br><small class="genre-err-msg">* Book genre is required</small>
                     </label><br>
                 
                     <label for="b-read_status">Book status*
@@ -211,7 +211,7 @@
                         <option value="null" disabled selected>did you read this book?</option>
                         <option value="true">i already read it</option>
                         <option value="false">still have to read it</option></select>
-                        <br><small class="err-msg">* Book reading status is required</small>
+                        <br><small class="status-err-msg">* Book reading status is required</small>
                     </label><br>
         
                     <div class="new-book-buttons">
@@ -231,6 +231,6 @@
         </footer>
     </main>
 
-    <script src="script.js" type="text/javascript"></script>
+    <script src="script.js" type="module"></script>
 </body>
 </html>
