@@ -236,10 +236,12 @@ header{
 .modal-content table .b-data{
     padding-left: 5%;
     font-weight: 400;
+    width:8rem;
 }
 
 .modal-content table .b-header{
     font-weight: 600;
+    /* width: fit-content; */
 }
 .modal-content table{
     margin-top: 1.3%;

@@ -55,13 +55,23 @@ export default class UI {
     static initBookButton(){
         // Delete particular book modal
         const deleteBookContainer = document.querySelector('.delete-book-modal-container');
-        const deleteBookButton = document.querySelector(".delete-button");
+        const deleteBookButton = document.querySelectorAll(".delete-button");
         const modal = document.querySelector('.delete-book-modal-card');
 
-
-        deleteBookButton.addEventListener('click', () => {
-            deleteBookContainer.style.display = 'block';
+        deleteBookButton.forEach((button)=>{
+            console.log(button);
+            button.addEventListener('click',(e)=>{
+                deleteBookContainer.style.display = 'block';
+                document.querySelector('.confirm-book-removal')
+                .addEventListener('click', ()=>{
+                    console.log(e.target.id);
+                    // UI.deleteBook(e.target.id);
+                })
+                
+            })
         })
+
+        
 
         modal.addEventListener('click', (e) => {
             if (e.target.classList.contains('close')) {
@@ -80,6 +90,7 @@ export default class UI {
         const infoModal = document.querySelector(".info-modal-card");
 
         viewBookButton.forEach((button)=>{
+            // console.log(button);
             button.addEventListener('click', (e)=>{
                 UI.viewBookInfo(e.target.id);
                 infoModalContainer.style.display = 'block';
@@ -182,5 +193,11 @@ export default class UI {
         document.getElementById('b-info-date').innerHTML = book.dateAdded;
         document.getElementById('b-info-genre').innerHTML = book.genre;
         document.getElementById('b-info-status').innerHTML = book.status;
+    }
+
+    static deleteBook(bookTitle){
+        Storage.deleteBookFromStorage(bookTitle);
+        // UI.clearBookList();
+        // UI.loadBooks();
     }
 }
