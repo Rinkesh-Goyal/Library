@@ -89,6 +89,18 @@ export default class UI {
                 infoModalContainer.style.display = 'none';
             }
         })
+
+
+        //Change book status Read/Unread
+        const statusButton = document.querySelectorAll('.status-button');
+        statusButton.forEach((button) =>{
+            button.addEventListener('click', (event)=>{
+                // console.log(event.target.id);
+                // console.log(event.target.innerHTML);
+                UI.changeStatus(event.target.id, event.target.innerHTML);
+                UI.loadBooks();
+            })
+        } )
     }
 
     static windowClickForModal(){
@@ -191,50 +203,50 @@ export default class UI {
         UI.loadBooks();
     }
 
-    // static sortLibrary(){
-    //     const criteriaElement = document.querySelector('#sort');
-    //     const orderElement  =  document.querySelector('#order');
+    static sortLibrary(){
+        const criteriaElement = document.querySelector('#sort');
+        const orderElement  =  document.querySelector('#order');
 
-    //     const criteria = criteriaElement.options[criteriaElement.selectedIndex].value;
-    //     const order = orderElement.options[orderElement.selectedIndex].value === 'asc'?true:false;    
-    //     const bookCollection = Storage.getLibrary().getBooks();
-    //     console.log(bookCollection);
-    //     if(criteria === 'date'){
-    //         bookCollection.sort(function (a, b) {
-    //             return order
-    //               ? new Date(b.dateAdded) - new Date(a.dateAdded)
-    //               : new Date(a.dateAdded) - new Date(b.dateAdded);
-    //           });
-    //     }
+        const criteria = criteriaElement.options[criteriaElement.selectedIndex].value;
+        const order = orderElement.options[orderElement.selectedIndex].value === 'asc'?true:false;    
+        const bookCollection = Storage.getLibrary().getBooks();
+        console.log(bookCollection);
+        if(criteria === 'date'){
+            bookCollection.sort(function (a, b) {
+                return order
+                  ? new Date(b.dateAdded) - new Date(a.dateAdded)
+                  : new Date(a.dateAdded) - new Date(b.dateAdded);
+              });
+        }
 
-    //     if(criteria === 'title'){
-    //         bookCollection.sort(function (a, b) {
-    //             return order
-    //               ? (b.title) - (a.title)
-    //               : (a.title) - (b.title);
-    //           });
-    //     }
+        if(criteria === 'title'){
+            bookCollection.sort(function (a, b) {
+                return order
+                  ? (b.title) - (a.title)
+                  : (a.title) - (b.title);
+              });
+        }
 
-    //     if(criteria === 'author'){
-    //         bookCollection.sort(function (a, b) {
-    //             return order
-    //               ? (b.author) - (a.author)
-    //               : (a.author) - (b.author);
-    //           });
-    //     }
-    // }
+        if(criteria === 'author'){
+            bookCollection.sort(function (a, b) {
+                return order
+                  ? (b.author) - (a.author)
+                  : (a.author) - (b.author);
+              });
+        }
+    }
 
-    // static initSort(){
-    //     document.querySelector('#sort').addEventListener('change',(e)=>{
-    //         UI.sortLibrary();
-    //         UI.loadBooks();
-    //     })
+    static initSort(){
+        document.querySelector('#sort').addEventListener('change',(e)=>{
+            UI.sortLibrary();
+            UI.loadBooks();
+        })
 
-    //     document.querySelector('#order').addEventListener('change',(e)=>{
-    //         UI.sortLibrary();
-    //         UI.loadBooks();
-    //     })
-    // }
+        document.querySelector('#order').addEventListener('change',(e)=>{
+            UI.sortLibrary();
+            UI.loadBooks();
+        })
+    }
 
     static displayLibraryInfo(){
         const booksUnread = document.querySelector('#books-unread');
@@ -251,6 +263,15 @@ export default class UI {
 
         booksRead.innerHTML = booksReadCount;
         booksUnread.innerHTML = booksUnReadCount;
+    }
+
+    static changeStatus(bookTitle,status){
+        const library = Storage.getLibrary();
+        const book = library.getBooks().find((b) => b.getTitle() === bookTitle);
+        if(status === 'Read') book.setStatus('Unread');
+        else if(status === 'Unread') book.setStatus('Read');
+        Storage.saveLibrary(library);
+        UI.loadBooks();
     }
 }
 

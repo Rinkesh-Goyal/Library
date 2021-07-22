@@ -36,6 +36,7 @@ export default class Storage{
     static findBookFromStorage(bookTitle){
       return (Storage.getLibrary().getBook(bookTitle));
     }
+
 }
 
 
