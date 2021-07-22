@@ -10,7 +10,7 @@ export default class UI {
         UI.initAddDeleteAllButton();
         UI.windowClickForModal();
         UI.loadBooks();
-        // UI.initSort();
+        UI.initSort();
     }
 
     static initAddDeleteAllButton(){
@@ -95,8 +95,6 @@ export default class UI {
         const statusButton = document.querySelectorAll('.status-button');
         statusButton.forEach((button) =>{
             button.addEventListener('click', (event)=>{
-                // console.log(event.target.id);
-                // console.log(event.target.innerHTML);
                 UI.changeStatus(event.target.id, event.target.innerHTML);
                 UI.loadBooks();
             })
@@ -199,18 +197,18 @@ export default class UI {
 
     static deleteBook(bookTitle){
         Storage.deleteBookFromStorage(bookTitle);
-        // UI.clearBookList();
         UI.loadBooks();
     }
 
-    static sortLibrary(){
-        const criteriaElement = document.querySelector('#sort');
-        const orderElement  =  document.querySelector('#order');
+    static sortLibrary(criteria, order, bookCollection){
+        // const criteriaElement = document.querySelector('#sort');
+        // const orderElement  =  document.querySelector('#order');
 
-        const criteria = criteriaElement.options[criteriaElement.selectedIndex].value;
-        const order = orderElement.options[orderElement.selectedIndex].value === 'asc'?true:false;    
-        const bookCollection = Storage.getLibrary().getBooks();
-        console.log(bookCollection);
+        // const criteria = criteriaElement.options[criteriaElement.selectedIndex].value;
+        // const order = orderElement.options[orderElement.selectedIndex].value === 'asc'?true:false;    
+        // const bookCollection = Storage.getLibrary().getBooks();
+        
+        
         if(criteria === 'date'){
             bookCollection.sort(function (a, b) {
                 return order
@@ -237,13 +235,27 @@ export default class UI {
     }
 
     static initSort(){
-        document.querySelector('#sort').addEventListener('change',(e)=>{
-            UI.sortLibrary();
+        const criteriaElement= document.querySelector('#sort');
+        const orderElement = document.querySelector('#order');
+
+        const criteria = criteriaElement.options[criteriaElement.selectedIndex].value;
+        const order = orderElement.options[orderElement.selectedIndex].value === 'asc'?true:false;    
+        const bookCollection = Storage.getLibrary().getBooks();
+
+        criteriaElement.addEventListener('change',()=>{
+            console.log(criteria)
+            console.log(order)
+            console.log(bookCollection);
+            UI.sortLibrary("title", "asc", bookCollection);
             UI.loadBooks();
         })
 
-        document.querySelector('#order').addEventListener('change',(e)=>{
-            UI.sortLibrary();
+        orderElement.addEventListener('change',() => {
+            console.log(criteria)
+            console.log(order)
+            console.log(bookCollection);
+            UI.sortLibrary(criteria, order, bookCollection);
+            
             UI.loadBooks();
         })
     }
