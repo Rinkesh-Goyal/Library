@@ -10,6 +10,7 @@ export default class UI {
         UI.initAddDeleteAllButton();
         UI.windowClickForModal();
         UI.loadBooks();
+        UI.initSort();
     }
 
     static initAddDeleteAllButton(){
@@ -58,18 +59,25 @@ export default class UI {
         const deleteBookButton = document.querySelectorAll(".delete-button");
         const modal = document.querySelector('.delete-book-modal-card');
 
-        deleteBookButton.forEach((button)=>{
-            console.log(button);
-            button.addEventListener('click',(e)=>{
-                deleteBookContainer.style.display = 'block';
-                document.querySelector('.confirm-book-removal')
-                .addEventListener('click', ()=>{
-                    console.log(e.target.id);
-                    // UI.deleteBook(e.target.id);
-                })
+        // deleteBookButton.forEach((button)=>{
+        //     console.log(button);
+        //     button.addEventListener('click',(e)=>{
+        //         deleteBookContainer.style.display = 'block';
+        //         document.querySelector('.confirm-book-removal')
+        //         .addEventListener('click', ()=>{
+        //             console.log(e.target.id);
+        //             // UI.deleteBook(e.target.id);
+        //         })
                 
-            })
-        })
+        //     })
+        // })
+
+        const table = document.querySelector('#table-body');
+        table.addEventListener('click', (event)=>{
+                console.log(event.target.parentNode);
+                // UI.deleteBook(event.target.id);
+            }
+        )
 
         
 
@@ -198,6 +206,52 @@ export default class UI {
     static deleteBook(bookTitle){
         Storage.deleteBookFromStorage(bookTitle);
         // UI.clearBookList();
-        // UI.loadBooks();
+        UI.loadBooks();
+    }
+
+    static sortLibrary(){
+        const criteriaElement = document.querySelector('#sort');
+        const orderElement  =  document.querySelector('#order');
+
+        const criteria = criteriaElement.options[criteriaElement.selectedIndex].value;
+        const order = orderElement.options[orderElement.selectedIndex].value === 'asc'?true:false;    
+        const bookCollection = Storage.getLibrary().getBooks();
+        console.log(bookCollection);
+        if(criteria === 'date'){
+            bookCollection.sort(function (a, b) {
+                return order
+                  ? new Date(b.dateAdded) - new Date(a.dateAdded)
+                  : new Date(a.dateAdded) - new Date(b.dateAdded);
+              });
+        }
+
+        if(criteria === 'title'){
+            bookCollection.sort(function (a, b) {
+                return order
+                  ? (b.title) - (a.title)
+                  : (a.title) - (b.title);
+              });
+        }
+
+        if(criteria === 'author'){
+            bookCollection.sort(function (a, b) {
+                return order
+                  ? (b.author) - (a.author)
+                  : (a.author) - (b.author);
+              });
+        }
+    }
+
+    static initSort(){
+        document.querySelector('#sort').addEventListener('change',(e)=>{
+            UI.sortLibrary();
+            UI.loadBooks();
+        })
+
+        document.querySelector('#order').addEventListener('change',(e)=>{
+            UI.sortLibrary();
+            UI.loadBooks();
+        })
     }
 }
+
