@@ -161,6 +161,7 @@ export default class UI {
         `
         UI.initBookButton();
         UI.displayLibraryInfo();
+        // Storage.sortLibraryByTitleAsc();
 
     }
 
@@ -200,65 +201,38 @@ export default class UI {
         UI.loadBooks();
     }
 
-    static sortLibrary(criteria, order, bookCollection){
-        // const criteriaElement = document.querySelector('#sort');
-        // const orderElement  =  document.querySelector('#order');
-
-        // const criteria = criteriaElement.options[criteriaElement.selectedIndex].value;
-        // const order = orderElement.options[orderElement.selectedIndex].value === 'asc'?true:false;    
-        // const bookCollection = Storage.getLibrary().getBooks();
-        
-        
-        if(criteria === 'date'){
-            bookCollection.sort(function (a, b) {
-                return order
-                  ? new Date(b.dateAdded) - new Date(a.dateAdded)
-                  : new Date(a.dateAdded) - new Date(b.dateAdded);
-              });
-        }
-
-        if(criteria === 'title'){
-            bookCollection.sort(function (a, b) {
-                return order
-                  ? (b.title) - (a.title)
-                  : (a.title) - (b.title);
-              });
-        }
-
-        if(criteria === 'author'){
-            bookCollection.sort(function (a, b) {
-                return order
-                  ? (b.author) - (a.author)
-                  : (a.author) - (b.author);
-              });
-        }
-    }
-
+    /*************************************************************************************************** */
+    //Error---Criteria and Order is returning the first value only i.e null for criteria and asc for order
+    /*************************************************************************************************** */
     static initSort(){
         const criteriaElement= document.querySelector('#sort');
         const orderElement = document.querySelector('#order');
 
         const criteria = criteriaElement.options[criteriaElement.selectedIndex].value;
-        const order = orderElement.options[orderElement.selectedIndex].value === 'asc'?true:false;    
-        const bookCollection = Storage.getLibrary().getBooks();
+        const order = orderElement.options[orderElement.selectedIndex].value;    
 
-        criteriaElement.addEventListener('change',()=>{
-            console.log(criteria)
-            console.log(order)
-            console.log(bookCollection);
-            UI.sortLibrary("title", "asc", bookCollection);
-            UI.loadBooks();
-        })
+        const sortButton = document.getElementById('sort-btn');
 
-        orderElement.addEventListener('change',() => {
-            console.log(criteria)
-            console.log(order)
-            console.log(bookCollection);
-            UI.sortLibrary(criteria, order, bookCollection);
-            
+        sortButton.addEventListener('click', () => {
+            console.log(criteria);
+            console.log(order);
+            if(criteria === 'title' && order === 'asc')
+                Storage.sortLibraryByTitleAsc();
+            if(criteria === 'title' && order === 'desc')
+                Storage.sortLibraryByTitleDesc();
+            if(criteria === 'author' && order === 'asc')
+                Storage.sortLibraryByAuthorAsc();
+            if(criteria === 'author' && order === 'desc')
+                Storage.sortLibraryByAuthorDesc();
+            if(criteria === 'date' && order === 'asc')
+                Storage.sortLibraryByDateAsc();
+            if(criteria === 'date' && order === 'desc')
+                Storage.sortLibraryByDateDesc();
+        })    
             UI.loadBooks();
-        })
     }
+    /****************************************************************** */
+    /****************************************************************** */
 
     static displayLibraryInfo(){
         const booksUnread = document.querySelector('#books-unread');

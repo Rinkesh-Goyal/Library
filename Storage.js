@@ -37,6 +37,90 @@ export default class Storage{
       return (Storage.getLibrary().getBook(bookTitle));
     }
 
+
+    static sortLibraryByTitleAsc(){
+      const library = Storage.getLibrary();
+      const books = library.getBooks();
+      
+        books.sort((a,b)=>{
+          if(a.getTitle()<b.getTitle()){
+            return -1;
+          }
+          else if(a.getTitle()>b.getTitle()){
+            return 1;
+          }
+          return 0;
+        })
+      Storage.saveLibrary(library);
+    }
+
+    static sortLibraryByTitleDesc(){
+      const library = Storage.getLibrary();
+      const books = library.getBooks();
+      
+        books.sort((a,b)=>{
+          if(a.getTitle()>b.getTitle()){
+            return -1;
+          }
+          else if(a.getTitle()<b.getTitle()){
+            return 1;
+          }
+          return 0;
+        })
+      Storage.saveLibrary(library);
+    }
+
+    static sortLibraryByAuthorAsc(){
+      const library = Storage.getLibrary();
+      const books = library.getBooks();
+      
+        books.sort((a,b)=>{
+          if(a.getAuthor()<b.getAuthor()){
+            return -1;
+          }
+          else if(a.getAuthor()>b.getAuthor()){
+            return 1;
+          }
+          return 0;
+        })
+      Storage.saveLibrary(library);
+    }
+
+    static sortLibraryByAuthorDesc(){
+      const library = Storage.getLibrary();
+      const books = library.getBooks();
+      
+        books.sort((a,b)=>{
+          if(a.getAuthor()>b.getAuthor()){
+            return -1;
+          }
+          else if(a.getAuthor()<b.getAuthor()){
+            return 1;
+          }
+          return 0;
+        })
+      Storage.saveLibrary(library);
+    }
+
+    static sortLibraryByDateAsc(){
+      const library = Storage.getLibrary();
+      const books = library.getBooks();
+      
+        books.sort((a,b)=>{
+          return new Date(a.getDate())-new Date(b.getDate());
+        })
+      Storage.saveLibrary(library);
+    }
+
+    static sortLibraryByDateDesc(){
+      const library = Storage.getLibrary();
+      const books = library.getBooks();
+      
+        books.sort((a,b)=>{
+          return new Date(b.getDate())-new Date(a.getDate());
+        })
+      Storage.saveLibrary(library);
+    }
 }
 
 
