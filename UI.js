@@ -144,12 +144,14 @@ export default class UI {
         <tr>
             <td>${book.title}</td>
             <td>${book.author}</td>
-            <td><button id = "${book.title}" class="status-button Read">Read</button></td>
+            <td><button id = "${book.title}" class="status-button ${book.status}">${book.status}</button></td>
             <td><button id = "${book.title}" class="view-button">View</button></td>
             <td><button id = "${book.title}" class="delete-button">Delete</button></td>
         </tr>
         `
         UI.initBookButton();
+        UI.displayLibraryInfo();
+
     }
 
     static clearAddBookForm(){
@@ -165,6 +167,7 @@ export default class UI {
         Storage.getLibrary()
           .getBooks()
           .forEach((book) => UI.createBook(book));
+        UI.displayLibraryInfo();
     }
 
     static clearBookList(){
@@ -233,24 +236,21 @@ export default class UI {
     //     })
     // }
 
-    static createDeleteModal(id){
-        const deleteBookContainer =  document.querySelector('.delete-book-modal-container');
-        deleteBookContainer.innerHTML = `
-        <div class="delete-book-modal-card" id=${id}>
-                <div class="modal-header">
-                    <h2 class="delete-book-header">BOOK REMOVAL</h2>
-                    <span class="close-modal close">&times;</span>
-                </div>
-                <div class="modal-content">
-                    <p>Do you really want to delete the books from your library?</p>
-                    <div class="modal-options">
-                        <button type="button" class="cancel-removal close">Cancel</button>
-                        <button type="button" class="confirm-book-removal">Delete</button>
-                    </div>
-                </div>
-            </div>`
-        
-        
+    static displayLibraryInfo(){
+        const booksUnread = document.querySelector('#books-unread');
+        const booksRead = document.querySelector('#books-read');
+        const totalBooks =  document.querySelector('#total-books');
+        let booksReadCount = 0;
+        let booksUnReadCount = 0;
+
+        totalBooks.innerHTML = Storage.getLibrary().getBooks().length;
+        Storage.getLibrary().getBooks().forEach((book) => {
+            if(book.getStatus() === "Read" ) booksReadCount++;
+            else if (book.getStatus() === "Unread") booksUnReadCount++;
+        })
+
+        booksRead.innerHTML = booksReadCount;
+        booksUnread.innerHTML = booksUnReadCount;
     }
 }
 
