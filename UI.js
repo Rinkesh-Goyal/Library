@@ -10,7 +10,7 @@ export default class UI {
         UI.initAddDeleteAllButton();
         UI.windowClickForModal();
         UI.loadBooks();
-        UI.initSort();
+        // UI.initSort();
     }
 
     static initAddDeleteAllButton(){
@@ -55,41 +55,20 @@ export default class UI {
 
     static initBookButton(){
         // Delete particular book modal
-        const deleteBookContainer = document.querySelector('.delete-book-modal-container');
+        // const deleteBookContainer = document.querySelector('.delete-book-modal-container');
+        // const modal = document.querySelector('.delete-book-modal-card');
         const deleteBookButton = document.querySelectorAll(".delete-button");
-        const modal = document.querySelector('.delete-book-modal-card');
 
-        // deleteBookButton.forEach((button)=>{
-        //     console.log(button);
-        //     button.addEventListener('click',(e)=>{
-        //         deleteBookContainer.style.display = 'block';
-        //         document.querySelector('.confirm-book-removal')
-        //         .addEventListener('click', ()=>{
-        //             console.log(e.target.id);
-        //             // UI.deleteBook(e.target.id);
-        //         })
-                
-        //     })
-        // })
-
-        const table = document.querySelector('#table-body');
-        table.addEventListener('click', (event)=>{
-                console.log(event.target.parentNode);
-                // UI.deleteBook(event.target.id);
-            }
-        )
-
-        
-
-        modal.addEventListener('click', (e) => {
-            if (e.target.classList.contains('close')) {
-                deleteBookContainer.style.display = 'none';
-            } else if (e.target.classList.contains('confirm-book-removal')) {
-
-                deleteBookContainer.style.display = 'none';
-              }
+        deleteBookButton.forEach((button)=>{
+            button.addEventListener('click',(e)=>{
+                    if(confirm("Do you really want to delete the book.")){
+                        UI.deleteBook(e.target.id);
+                    }
+                    else{
+                        return;
+                    }
+                })                
         })
-
 
 
         //Show book info modal
@@ -209,49 +188,70 @@ export default class UI {
         UI.loadBooks();
     }
 
-    static sortLibrary(){
-        const criteriaElement = document.querySelector('#sort');
-        const orderElement  =  document.querySelector('#order');
+    // static sortLibrary(){
+    //     const criteriaElement = document.querySelector('#sort');
+    //     const orderElement  =  document.querySelector('#order');
 
-        const criteria = criteriaElement.options[criteriaElement.selectedIndex].value;
-        const order = orderElement.options[orderElement.selectedIndex].value === 'asc'?true:false;    
-        const bookCollection = Storage.getLibrary().getBooks();
-        console.log(bookCollection);
-        if(criteria === 'date'){
-            bookCollection.sort(function (a, b) {
-                return order
-                  ? new Date(b.dateAdded) - new Date(a.dateAdded)
-                  : new Date(a.dateAdded) - new Date(b.dateAdded);
-              });
-        }
+    //     const criteria = criteriaElement.options[criteriaElement.selectedIndex].value;
+    //     const order = orderElement.options[orderElement.selectedIndex].value === 'asc'?true:false;    
+    //     const bookCollection = Storage.getLibrary().getBooks();
+    //     console.log(bookCollection);
+    //     if(criteria === 'date'){
+    //         bookCollection.sort(function (a, b) {
+    //             return order
+    //               ? new Date(b.dateAdded) - new Date(a.dateAdded)
+    //               : new Date(a.dateAdded) - new Date(b.dateAdded);
+    //           });
+    //     }
 
-        if(criteria === 'title'){
-            bookCollection.sort(function (a, b) {
-                return order
-                  ? (b.title) - (a.title)
-                  : (a.title) - (b.title);
-              });
-        }
+    //     if(criteria === 'title'){
+    //         bookCollection.sort(function (a, b) {
+    //             return order
+    //               ? (b.title) - (a.title)
+    //               : (a.title) - (b.title);
+    //           });
+    //     }
 
-        if(criteria === 'author'){
-            bookCollection.sort(function (a, b) {
-                return order
-                  ? (b.author) - (a.author)
-                  : (a.author) - (b.author);
-              });
-        }
-    }
+    //     if(criteria === 'author'){
+    //         bookCollection.sort(function (a, b) {
+    //             return order
+    //               ? (b.author) - (a.author)
+    //               : (a.author) - (b.author);
+    //           });
+    //     }
+    // }
 
-    static initSort(){
-        document.querySelector('#sort').addEventListener('change',(e)=>{
-            UI.sortLibrary();
-            UI.loadBooks();
-        })
+    // static initSort(){
+    //     document.querySelector('#sort').addEventListener('change',(e)=>{
+    //         UI.sortLibrary();
+    //         UI.loadBooks();
+    //     })
 
-        document.querySelector('#order').addEventListener('change',(e)=>{
-            UI.sortLibrary();
-            UI.loadBooks();
-        })
+    //     document.querySelector('#order').addEventListener('change',(e)=>{
+    //         UI.sortLibrary();
+    //         UI.loadBooks();
+    //     })
+    // }
+
+    static createDeleteModal(id){
+        const deleteBookContainer =  document.querySelector('.delete-book-modal-container');
+        deleteBookContainer.innerHTML = `
+        <div class="delete-book-modal-card" id=${id}>
+                <div class="modal-header">
+                    <h2 class="delete-book-header">BOOK REMOVAL</h2>
+                    <span class="close-modal close">&times;</span>
+                </div>
+                <div class="modal-content">
+                    <p>Do you really want to delete the books from your library?</p>
+                    <div class="modal-options">
+                        <button type="button" class="cancel-removal close">Cancel</button>
+                        <button type="button" class="confirm-book-removal">Delete</button>
+                    </div>
+                </div>
+            </div>`
+        
+        
     }
 }
 
+ 
