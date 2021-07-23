@@ -42,15 +42,14 @@ export default class Storage{
       const library = Storage.getLibrary();
       const books = library.getBooks();
       
-        books.sort((a,b)=>{
-          if(a.getTitle()<b.getTitle()){
-            return -1;
-          }
-          else if(a.getTitle()>b.getTitle()){
-            return 1;
-          }
-          return 0;
-        })
+      books.sort((a,b)=>{
+        if(a.getTitle().toLowerCase() < b.getTitle().toLowerCase()){
+          return -1;
+        }
+        return 0
+      })
+      library.setBooks(books);
+      console.log("books acs: ", books);
       Storage.saveLibrary(library);
     }
 
@@ -58,15 +57,14 @@ export default class Storage{
       const library = Storage.getLibrary();
       const books = library.getBooks();
       
-        books.sort((a,b)=>{
-          if(a.getTitle()>b.getTitle()){
-            return -1;
-          }
-          else if(a.getTitle()<b.getTitle()){
-            return 1;
-          }
-          return 0;
-        })
+      books.sort((a,b)=>{
+        if(a.getTitle().toLowerCase() > b.getTitle().toLowerCase()){
+          return -1;
+        }
+        return 0
+      })
+      library.setBooks(books);
+      console.log("books decs: ", books);
       Storage.saveLibrary(library);
     }
 
@@ -74,15 +72,14 @@ export default class Storage{
       const library = Storage.getLibrary();
       const books = library.getBooks();
       
-        books.sort((a,b)=>{
-          if(a.getAuthor()<b.getAuthor()){
-            return -1;
-          }
-          else if(a.getAuthor()>b.getAuthor()){
-            return 1;
-          }
-          return 0;
-        })
+      books.sort((a,b)=>{
+        if(a.getAuthor().toLowerCase() < b.getAuthor().toLowerCase()){
+          return -1;
+        }
+        return 0
+      })
+      library.setBooks(books);
+      console.log("books acs: ", books);
       Storage.saveLibrary(library);
     }
 
@@ -90,15 +87,14 @@ export default class Storage{
       const library = Storage.getLibrary();
       const books = library.getBooks();
       
-        books.sort((a,b)=>{
-          if(a.getAuthor()>b.getAuthor()){
-            return -1;
-          }
-          else if(a.getAuthor()<b.getAuthor()){
-            return 1;
-          }
-          return 0;
-        })
+      books.sort((a,b)=>{
+        if(a.getAuthor().toLowerCase() > b.getAuthor().toLowerCase()){
+          return -1;
+        }
+        return 0
+      })
+      library.setBooks(books);
+      console.log("books decs: ", books);
       Storage.saveLibrary(library);
     }
 
@@ -107,8 +103,11 @@ export default class Storage{
       const books = library.getBooks();
       
         books.sort((a,b)=>{
+          console.log(new Date(b.getDate()));
+          console.log(new Date(a.getDate()));
           return new Date(a.getDate())-new Date(b.getDate());
         })
+        library.setBooks(books);
       Storage.saveLibrary(library);
     }
 
@@ -117,8 +116,11 @@ export default class Storage{
       const books = library.getBooks();
       
         books.sort((a,b)=>{
+          console.log(new Date(b.getDate()));
+          console.log(new Date(a.getDate()));
           return new Date(b.getDate())-new Date(a.getDate());
         })
+        library.setBooks(books);
       Storage.saveLibrary(library);
     }
 }

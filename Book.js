@@ -8,11 +8,7 @@ export default class Book{
         this.number_of_pages = number_of_pages;
         this.genre = genre;
         this.status = status;
-        let today = new Date();
-        let date = `${today.getDate()}`.padStart(2,'0');
-        let month = `${today.getMonth()+1}`.padStart(2,'0');
-        let year = `${today.getFullYear()}`;
-        this.dateAdded = `${date}/${month}/${year}`;
+        this.dateAdded = new Date();;
     }   
     
 

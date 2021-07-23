@@ -179,6 +179,7 @@ export default class UI {
           .getBooks()
           .forEach((book) => UI.createBook(book));
         UI.displayLibraryInfo();
+        // Storage.sortLibraryByTitleAsc();
     }
 
     static clearBookList(){
@@ -208,28 +209,46 @@ export default class UI {
         const criteriaElement= document.querySelector('#sort');
         const orderElement = document.querySelector('#order');
 
-        const criteria = criteriaElement.options[criteriaElement.selectedIndex].value;
-        const order = orderElement.options[orderElement.selectedIndex].value;    
+        let criteria = criteriaElement.options[criteriaElement.selectedIndex].value;
+        let order = orderElement.options[orderElement.selectedIndex].value;    
 
         const sortButton = document.getElementById('sort-btn');
 
         sortButton.addEventListener('click', () => {
+            criteria = criteriaElement.options[criteriaElement.selectedIndex].value;
+            order = orderElement.options[orderElement.selectedIndex].value;    
             console.log(criteria);
             console.log(order);
-            if(criteria === 'title' && order === 'asc')
+            if(criteria === 'title' && order === 'asc'){
                 Storage.sortLibraryByTitleAsc();
-            if(criteria === 'title' && order === 'desc')
+                UI.loadBooks();
+            }
+            if(criteria === 'title' && order === 'desc'){
                 Storage.sortLibraryByTitleDesc();
-            if(criteria === 'author' && order === 'asc')
+                UI.loadBooks();
+            }
+                
+            if(criteria === 'author' && order === 'asc'){
                 Storage.sortLibraryByAuthorAsc();
-            if(criteria === 'author' && order === 'desc')
+                UI.loadBooks();
+
+            }
+            if(criteria === 'author' && order === 'desc'){
                 Storage.sortLibraryByAuthorDesc();
-            if(criteria === 'date' && order === 'asc')
+                UI.loadBooks();
+
+            }
+            if(criteria === 'date' && order === 'asc'){
                 Storage.sortLibraryByDateAsc();
-            if(criteria === 'date' && order === 'desc')
+                UI.loadBooks();
+                
+            }
+            if(criteria === 'date' && order === 'desc'){
                 Storage.sortLibraryByDateDesc();
+                UI.loadBooks();
+
+            }
         })    
-            UI.loadBooks();
     }
     /****************************************************************** */
     /****************************************************************** */
